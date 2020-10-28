@@ -3,12 +3,8 @@ import Button from 'react-bootstrap/Button';
 
 class ConnectButton extends Component {
 
-  onClick() {
-    console.log('Connect');
-  }
-
   render() {
-    return <Button variant="success" size="lg" onClick={this.onClick}>Connect</Button>;
+    return <Button variant="success" size="lg" onClick={this.props.clickConnect}>Connect</Button>;
   }
 }
 

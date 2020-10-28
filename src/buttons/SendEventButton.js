@@ -3,12 +3,8 @@ import Button from 'react-bootstrap/Button';
 
 class SendEventButton extends Component {
 
-  onClick() {
-    console.log('SendEvent');
-  }
-
   render() {
-    return <Button variant="secondary" size="lg" onClick={this.onClick}>Send Event</Button>;
+    return <Button variant="secondary" size="lg" onClick={this.props.clickSendEvent}>Send Event</Button>;
   }
 }
 

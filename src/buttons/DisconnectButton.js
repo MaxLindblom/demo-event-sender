@@ -3,12 +3,8 @@ import Button from 'react-bootstrap/Button';
 
 class DisconnectButton extends Component {
 
-  onClick() {
-    console.log('Disconnect');
-  }
-
   render() {
-    return <Button variant="danger" size="lg" onClick={this.onClick}>Disconnect</Button>;
+    return <Button variant="danger" size="lg" onClick={this.props.clickDisconnect}>Disconnect</Button>;
   }
 }
 
