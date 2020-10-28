@@ -1,26 +1,5 @@
-const fs = require('fs');
-const readline = require('readline');
-
-
-const getCredentials = () => {
-  const fileStream = fs.createReadStream('api_creds.txt');
-
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity
-  });
-
-  const credentials = [];
-  for (const line of rl) {
-    credentials.append(line.split(' ')[1])
-  }
-
-  return credentials;
-} 
-
-const credentials = getCredentials();
-const ENDPOINT_URL = credentials[0]
-const API_KEY = credentials[1]
+const ENDPOINT_URL = 'TODO: Add URL here' // TODO: Add URL here
+const API_KEY = 'TODO: Add API key here' // TODO: Add API key here
 
 const sendStartEvent = (metadata, payload) => {
   const data = {
