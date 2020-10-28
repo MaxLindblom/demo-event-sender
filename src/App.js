@@ -1,22 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import ConnectButton from './buttons/ConnectButton';
+import SendEventButton from './buttons/SendEventButton';
+import DisconnectButton from './buttons/DisconnectButton';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Use buttons below to control Events
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <ConnectButton></ConnectButton>
+        <SendEventButton></SendEventButton>
+        <DisconnectButton></DisconnectButton>
       </header>
     </div>
   );
