@@ -37,20 +37,31 @@ const updateIds = () => {
   }
 
   if (!sessionId) {
-    createId(SESSION_ID_KEY);
+    const newSessionId = createId(SESSION_ID_KEY);
+    const metadata = {
+      'start_origin': 'new session'
+    }
     const payload = {
+      'session_id': newSessionId.id,
+      'session_created': newSessionId.time,
       'long_term_id_created': longTermId.time
     };
-    eventSender.sendStartEvent(payload);
+    eventSender.sendStartEvent(metadata, payload);
   } else if (Date.now() - sessionId.time > 30 * 1000) {
     // No interaction the past 30 seconds. Create a new session, but leave the long term id as is.
-    createId(SESSION_ID_KEY);
+    // NOTE: 30 seconds is a very short time - relevant for testing purposes but not for an actual product
+    const renewedSessionId = createId(SESSION_ID_KEY);
+    const metadata = {
+      'start_origin': 'session restarted'
+    }
     const payload = {
       'expired_session_id': sessionId.id,
       'old_session_expired': sessionId.time,
+      'renewed_session_id': renewedSessionId.id,
+      'renewed_session_created': renewedSessionId.time,
       'long_term_id_created': longTermId.time
     };
-    eventSender.sendStartEvent(payload);
+    eventSender.sendStartEvent(metadata, payload);
   } else {
     // Sessions are active, but session time should be updated
 		const newIdProps = {
