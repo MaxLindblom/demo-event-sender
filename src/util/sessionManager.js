@@ -4,7 +4,13 @@ const LONG_TERM_ID_KEY = 'long_term_id';
 const KEYS = [SESSION_ID_KEY, LONG_TERM_ID_KEY];
 
 const createId = (key) => {
-  const id = this.idGenerator.uuidV4();
+  let d = Date.now(); // Start with now as a seed
+  const id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, xy => {
+    const r = (d + Math.random() * 16) % 16 | 0; // Generate a new random number
+    const c = xy === 'x' ? r : (r & 0x3) | 0x8; // Make sure it's  RFC4122 version 4 compliant
+    d = Math.floor(d / 16); // Update the seed
+    return c.toString(16); // Return the hex digit
+  });
   const newIdProps = {
     time: Date.now(),
     id
@@ -23,22 +29,22 @@ const clearSessions = () => {
 }
 
 const updateIds = () => {
-  const sessionId = this.getId(SESSION_ID_KEY);
-  let longTermId = this.getId(LONG_TERM_ID_KEY);
+  const sessionId = getId(SESSION_ID_KEY);
+  let longTermId = getId(LONG_TERM_ID_KEY);
 
   if (!longTermId) {
-    longTermId = this.createId(LONG_TERM_ID_KEY);
+    longTermId = createId(LONG_TERM_ID_KEY);
   }
 
   if (!sessionId) {
-    this.createId(SESSION_ID_KEY);
+    createId(SESSION_ID_KEY);
     const payload = {
       'long_term_id_created': longTermId.time
     };
     eventSender.sendStartEvent(payload);
   } else if (Date.now() - sessionId.time > 30 * 1000) {
     // No interaction the past 30 seconds. Create a new session, but leave the long term id as is.
-    this.createId(SESSION_ID_KEY);
+    createId(SESSION_ID_KEY);
     const payload = {
       'expired_session_id': sessionId.id,
       'old_session_expired': sessionId.time,
